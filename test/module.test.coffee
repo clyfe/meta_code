@@ -34,8 +34,8 @@ exports.extend_with_two_sources = ->
   assert.equal C.method1(), 'method one'
 
 
-# test include
-exports.include = ->
+# test include with one source
+exports.include_with_one_source = ->
   source = 
     property1: 'property one',
     method1: -> 'method one'
@@ -47,6 +47,24 @@ exports.include = ->
   c = new C()  
   assert.equal c.property1, 'property one'
   assert.equal c.method1(), 'method one'
+
+
+# test include with two sources
+exports.include_with_two_sources = ->
+  source =
+    property1: 'property one'
+    method1: -> 'method one'
+
+  another_source =
+    method1: -> 'overwritten method'
+    
+  class C
+    metaCode @, 'module'
+    @include source, another_source
+
+  c = new C()
+  assert.equal c.property1, 'property one'
+  assert.equal c.method1(), 'overwritten method'
 
 
 # test includeInter with only one object to include in prototype chain
