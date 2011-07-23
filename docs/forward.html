@@ -1,0 +1,26 @@
+<!DOCTYPE html>  <html> <head>   <title>forward.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="index.html">                 index.coffee               </a>                                           <a class="source" href="autoload.html">                 autoload.coffee               </a>                                           <a class="source" href="forward.html">                 forward.coffee               </a>                                           <a class="source" href="module.html">                 module.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               forward.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Forward method calls to certain properties.</p>
+
+<pre><code>class Controller
+  metaCode @, 'forward'
+  @forward 'req', 'param', 'session'
+</code></pre>
+
+<p>same as</p>
+
+<pre><code>class Controller
+  param: -&gt; @req.param.apply @req, arguments
+  session: -&gt; @req.session.apply @req, arguments
+</code></pre>
+
+<p>@object {String} the name of the property to forward calls to
+@methods {Strings...} the methods to be wired
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">forward = </span><span class="nf">(property, methods...) -&gt;</span>
+  <span class="nv">proto = </span><span class="err">@</span><span class="o">::</span>
+  <span class="k">for</span> <span class="nx">method</span> <span class="k">in</span> <span class="nx">methods</span>
+    <span class="nx">do</span> <span class="nf">(method) -&gt;</span>
+      <span class="nx">proto</span><span class="p">[</span><span class="nx">method</span><span class="p">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="err">@</span><span class="p">[</span><span class="nx">property</span><span class="p">][</span><span class="nx">method</span><span class="p">].</span><span class="nx">apply</span> <span class="err">@</span><span class="p">[</span><span class="nx">property</span><span class="p">],</span> <span class="nx">arguments</span>
+
+
+<span class="nv">exports.forward = </span><span class="nx">forward</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>  <html> <head>   <title>module.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="index.html">                 index.coffee               </a>                                           <a class="source" href="autoload.html">                 autoload.coffee               </a>                                           <a class="source" href="forward.html">                 forward.coffee               </a>                                           <a class="source" href="module.html">                 module.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               module.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">_ = </span><span class="nx">require</span> <span class="s1">&#39;underscore&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Copy into object all properties from module</p>
+
+<pre><code>Macros =
+  delegate: (to, what) -&gt; 
+    @[what] = @[to][what].apply @[to], arguments
+
+class Application extends Controller
+  metaCode @, 'module'
+  @extend Macros
+  @delegate 'req', 'userId'
+  index: -&gt; console.log @userId()
+</code></pre>
+
+<p>@objects {Objects...} the objects to extend with
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">extend = </span><span class="nf">(objects...) -&gt;</span>
+  <span class="k">for</span> <span class="nx">object</span> <span class="k">in</span> <span class="nx">objects</span>
+    <span class="k">for</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">property</span> <span class="k">of</span> <span class="nx">object</span>
+      <span class="err">@</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">property</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Copy into object all properties from module onto the prototype</p>
+
+<pre><code>Authentication =
+  currentUser: (cb) -&gt; 
+    User.find @session('userId'), (err, user) -&gt;
+      user = new User() if err
+      cb(user)
+
+Authorization =
+  authorize: (role, cb) -&gt;
+    @currentUser (user) -&gt;
+      throw new Error('Not Authorized') unless user.role == role
+      cb()
+
+class Tweets extends Controller
+  metaCode @, 'module'
+  @include Authentication, Authorization
+  show:
+    @authorize 'admin', =&gt;
+      Tweet.find @params 'id', (@err, @tweet) =&gt; @render 'show'
+</code></pre>
+
+<p>@objects {Objects...} the objects to mix in
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">include = </span><span class="nf">(objects...) -&gt;</span>
+  <span class="nv">proto = </span><span class="err">@</span><span class="o">::</span>
+  <span class="k">for</span> <span class="nx">object</span> <span class="k">in</span> <span class="nx">objects</span>
+    <span class="k">for</span> <span class="nx">own</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">property</span> <span class="k">of</span> <span class="nx">object</span>
+      <span class="nx">proto</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">property</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>The same as "include" only it does not copy the properties, it achieves
+augmentation by injecting copies of module-objects into the receiver's
+prototype chain</p>
+
+<p>@objects {Objects...} the objects to mix in
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">includeInter = </span><span class="nf">(objects...) -&gt;</span>
+  <span class="k">for</span> <span class="nx">object</span> <span class="k">in</span> <span class="nx">objects</span>
+    <span class="nv">module = </span><span class="nx">_</span><span class="p">.</span><span class="nx">clone</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span>
+    <span class="nv">previousPrototype = </span><span class="err">@</span><span class="o">::</span>
+    <span class="err">@</span><span class="o">::</span> <span class="o">=</span> <span class="nx">module</span>
+    <span class="nv">module.__proto__ = </span><span class="nx">previousPrototype</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>make sure to preserve the constructor property</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="err">@</span><span class="o">::</span><span class="nv">constructor = </span><span class="nx">previousPrototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="k">if</span> <span class="nx">previousPrototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span> <span class="s1">&#39;constructor&#39;</span>
+
+
+<span class="nv">exports.extend = </span><span class="nx">extend</span>
+<span class="nv">exports.include = </span><span class="nx">include</span>
+<span class="nv">exports.includeInter = </span><span class="nx">includeInter</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
