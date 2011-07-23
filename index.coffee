@@ -1,4 +1,5 @@
 # A set of metaprogramming tools to aid development, inspired by Ruby
+# See the documentation for each tool to find out more
 
 
 # Use this function to enable a set of metacode tools in your class
