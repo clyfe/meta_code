@@ -1,0 +1,26 @@
+{
+  "author": "Nicolae Claudius",
+  "name": "meta_code",
+  "description": "Metaprogramming utilities for CoffeeScript",
+  "version": "0.0.1",
+  "keywords": ["metaprogramming", "coffeescript"],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/clyfe/meta_code.git"
+  },
+  "main": "index",
+  "scripts": {
+    "test": "expresso"
+  },
+  "engines": {
+    "node": "~v0.4.9"
+  },
+  "dependencies": {
+    "coffee-script": ">= 1.1.1",
+    "underscore": ">= 1.1.7"
+  },
+  "devDependencies": {
+    "expresso": ">= 0.8.1"
+  }
+}
+
