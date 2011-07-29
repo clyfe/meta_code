@@ -17,7 +17,7 @@ _ = require 'underscore'
 # @api public
 extend = (objects...) ->
   for object in objects
-    for name, property of object
+    for own name, property of object
       @[name] = property
 
 
