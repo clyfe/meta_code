@@ -10,7 +10,8 @@
   },
   "main": "index",
   "scripts": {
-    "test": "expresso"
+    "pretest": "NODE_ENV=test",
+    "test": "expresso test/*"
   },
   "engines": {
     "node": ">= 0.4.9"
