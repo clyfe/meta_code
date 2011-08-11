@@ -2,7 +2,7 @@
   "author": "Nicolae Claudius",
   "name": "meta_code",
   "description": "Metaprogramming utilities for CoffeeScript",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": ["metaprogramming", "coffeescript"],
   "repository": {
     "type": "git",
