@@ -21,6 +21,8 @@ Curently, the folowing tools are provided (nicely documented in the code)
 * **autoload**
   - `autoload` - load a property from a file
 
+* **extract_options**
+  - `extract_options` - extract options from function arguments
 
 ### Install
 
