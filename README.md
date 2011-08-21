@@ -64,7 +64,7 @@ class Samurai
 2. Use directly
 
 ```coffeescript
-module = require 'meta_code/tools/module' # include the tool
+module = require 'meta_code/tools/module' # require the tool
 
 # a "module" we'll be including in our class
 Power =
