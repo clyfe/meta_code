@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "coffee-script": ">= 1.1.1",
-    "underscore": ">= 1.1.7"
+    "underscore": ">= 1.1.7",
+    "lingo": ">= 0.0.4"
   },
   "devDependencies": {
     "expresso": ">= 0.8.1"
