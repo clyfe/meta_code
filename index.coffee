@@ -2,6 +2,10 @@
 # See the documentation for each tool to find out more
 
 
+fs = require 'fs'
+lingo = require 'lingo'
+
+
 # Use this function to enable a set of metacode tools in your class
 #
 #     class Controller
@@ -17,17 +21,21 @@
 # @api public
 metaCode = (object, tools...) ->
   for toolName in tools
-    tool = require metaCode.loadPath + toolName
+    tool = require './tools/' + toolName
     object[method] = tool[method] for own method of tool
 
 
-# Default load path, can be customized for custom needs or testing
-# Example values
-#
-#     "./tools/"
-#     __dirname + "/tools"
-#
-metaCode.loadPath = "./tools/"
+# Auto-load cache
+metaCode.cache = {}
+
+
+# Auto-load bundled tools with getters.
+fs.readdirSync(__dirname + '/tools').forEach (filename) ->
+  if /\.(js|coffee)$/.test(filename)
+    name = filename.substr 0, filename.lastIndexOf('.')
+    property = lingo.camelcase name.replace(/_/g, ' ')
+    metaCode.__defineGetter__ property, -> 
+      metaCode.cache.name ?= require('./tools/' + name)
 
 
 module.exports = metaCode
