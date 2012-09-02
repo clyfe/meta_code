@@ -2,7 +2,7 @@
 
 Meta Code is a set of metaprogramming utilities for CoffeeScript (inspired by Ruby).  
 
-Although you can achieve the same things by hard-coding evrything, this package is good 
+Although you can achieve the same things by hard-coding everything, this package is good 
 because function names convey meaning, and is good to have consensus among developers.
 
 
